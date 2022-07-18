@@ -26,18 +26,32 @@ function routes(Article) {
             })
         });
 
-    //Why this is not working?
     articlerouter.route('/articles/:Id')
         .get((req, res) => {
-
-            Article.findById(ObjectId(req.params.Id), (err, articles) => {
+            console.log(req.params.Id);
+            Article.findById(req.params.Id, (err, art) => {
                 if (err) {
                     res.send(err);
                 }
                 else {
-                    res.json(articles);
+                    res.json(art);
                 }
-            })
+            });
+        })
+
+        .put((req, res) => {
+            Article.findById(req.params.Id, (err, art) => {
+                if (err) {
+                    res.send(err);
+                }
+
+                art.body = req.body.body;
+                art.title = req.body.title;
+                art.author = req.body.author;
+                art.save();
+                return res.json(art);
+                
+            });
         });
 
     return articlerouter;
