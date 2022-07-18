@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 
 const articleModel = new Schema (
    {
-    id:{type:Schema.Types.ObjectId} ,
+    //_id:{type:objectId} ,
     title: {type:String},
     author: {type:String},
     body: {type:String},
