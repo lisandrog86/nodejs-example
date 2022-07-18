@@ -26,31 +26,41 @@ function routes(Article) {
             })
         });
 
+    //Middleware
+    articlerouter.use('/articles/:Id', (req, res, next) => {
+        Article.findById(req.params.Id, (err, art) => {
+            if (err) {
+                res.send(err);
+            }
+
+            if (art) {
+                req.art = art;
+                return next();
+            }
+
+            return res.sendstatus(404);
+        });
+    });//
+
     articlerouter.route('/articles/:Id')
-        .get((req, res) => {
-            console.log(req.params.Id);
-            Article.findById(req.params.Id, (err, art) => {
-                if (err) {
-                    res.send(err);
-                }
-                else {
-                    res.json(art);
-                }
-            });
-        })
+        .get((req, res) => res.json(req.art))
 
         .put((req, res) => {
-            Article.findById(req.params.Id, (err, art) => {
-                if (err) {
-                    res.send(err);
-                }
+            const { art } = req;
 
-                art.body = req.body.body;
-                art.title = req.body.title;
-                art.author = req.body.author;
-                art.save();
-                return res.json(art);
-                
+            art.body = req.body.body;
+            art.title = req.body.title;
+            art.author = req.body.author;
+            art.save();
+            return res.json(art);
+        })
+
+        .delete((req, res) => { 
+            req.art.remove((err) =>{
+                if(err){
+                    return res.send(err);
+                }
+                return res.sendStatus(204);
             });
         });
 
