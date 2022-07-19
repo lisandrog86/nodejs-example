@@ -1,6 +1,9 @@
 const express = require('express');
+const articleController = require('../controllers/articleController');
+
 function routes(Article) {
     const articlerouter = express.Router();
+    const controller = articleController(Article);
 
     articlerouter.route('/articles')
         .post((req, res) => {
@@ -9,22 +12,9 @@ function routes(Article) {
             res.status(201).json(art);
         })
 
-        .get((req, res) => {
-
-            const query = {};
-            if (req.query.title) {
-                query.title = req.query.title;
-            }
-
-            Article.find(query, (err, articles) => {
-                if (err) {
-                    res.send(err);
-                }
-                else {
-                    res.json(articles);
-                }
-            })
-        });
+        .get(controller.get);
+            
+           
 
     //Middleware
     articlerouter.use('/articles/:Id', (req, res, next) => {
