@@ -23,18 +23,44 @@ class articleController {
             );
         };
     }
-    static async delete(req: Request, res: Response) {
+
+    static async update(req: Request, res: Response, Next : NextFunction)
+     {
+        const updatedArticles = await Article.findByIdAndUpdate(
+              req.params.id,
+              req.body.article,
+              {new: true}
+          );
+        
+        if(!updatedArticles)
+        {
+            return Next(
+                res.status(404).json({
+                  message: "Article Not found.",
+                }));
+        }
+      
+        return res.status(200).json(updatedArticles);
+    }
+
+
+    static async delete(req: Request, res: Response, next: NextFunction ) {
+        
         const removed = await Article.findByIdAndRemove(req.params.Id)
 
         if (removed) {
             return res.send("error");
         }
-        return res.sendStatus(204);
+        return res.sendStatus(200);
     };
+
+    static async getById(req: Request, res: Response) {
+        console.log('Get by Id ' + req.params.Id)
+        const articlefound = await Article.findById(req.params.id);
+        if (articlefound)
+                res.status(200).json(articlefound);
+        else res.status(404).send({message: 'Article not found'});
+    }
 };
 
-//  return { post, get };
-
-
-
-export default articleController;
+  export default articleController;

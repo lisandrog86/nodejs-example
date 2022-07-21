@@ -1,7 +1,8 @@
-import mongoose from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 
 
 interface IArticle {
+    //_id: ObjectId
     title: string,
     author: string,
     body: string
