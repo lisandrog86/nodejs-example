@@ -5,7 +5,7 @@ const CommentsApi = (router: Router) => {
     router.post('/', CommentController.post);
     router.put('/:id', CommentController.update);
     router.get('/:id', CommentController.getById);
-    //router.delete('/:id', ArticleController.delete);
+    router.delete('/:id', CommentController.delete);
 
     return router;
 };

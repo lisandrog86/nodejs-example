@@ -38,9 +38,9 @@ class commentController {
     }
 
 
-    /*static async delete(req: Request, res: Response, next: NextFunction ) {
+    static async delete(req: Request, res: Response, next: NextFunction ) {
         
-        const removed = await Article.findByIdAndRemove(req.params.Id)
+        const removed = await Comment.findByIdAndRemove(req.params.id)
 
         if (removed) {
             return res.send("error");
@@ -48,7 +48,6 @@ class commentController {
         return res.sendStatus(200);
     };
 
-  */
 };
 
 export default commentController;
